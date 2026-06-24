@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Nimooh's Closet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { max-width: 800px; margin: 100px auto; padding: 2rem; background: var(--color-white); border-radius: 15px; box-shadow: var(--shadow-md); }
+        .hidden { display: none !important; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-control { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-family: var(--font-primary); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-pink-light); padding-bottom: 1rem; }
+        .product-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        .product-table th, .product-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #ddd; }
+        .product-table th { background: var(--color-pink-light); color: var(--color-pink-dark); }
+        .product-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+        .btn-danger { background: #ff4d4f; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; }
+        .error-msg { color: #ff4d4f; margin-top: 1rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">NIMOOH'S<span>.</span>CLOSET</a>
+            <div style="font-weight: 600; color: var(--color-pink-dark);">Admin Portal</div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <div id="login-section" class="admin-container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Admin Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            <div id="login-error" class="error-msg"></div>
+        </form>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="admin-container hidden">
+        <div class="admin-header">
+            <h2>Product Dashboard</h2>
+            <button id="logout-btn" class="btn">Logout</button>
+        </div>
+
+        <div style="background: var(--color-cream); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+            <h3>Add New Product</h3>
+            <br>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="product-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (e.g., $120.00)</label>
+                    <input type="text" id="product-price" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="product-category" class="form-control" required>
+                        <option value="clothing">Clothing</option>
+                        <option value="handbags">Handbags</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <input type="file" id="product-image" class="form-control" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload Product</button>
+            </form>
+        </div>
+
+        <h3>Existing Products</h3>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <!-- Products will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

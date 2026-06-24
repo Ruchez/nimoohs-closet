@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Nimooh's Closet</title>
+    <meta name="description" content="Browse our trendy collection of dresses, handbags, and accessories.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">NIMOOH'S<span>.</span>CLOSET</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html" class="active">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="nav-icons">
+                <a href="admin.html" class="bag-icon" title="Admin Portal">
+                    <i class="fas fa-user-lock"></i>
+                </a>
+                <a href="shop.html" class="bag-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </a>
+                <div class="menu-toggle" id="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>Our Collection</h1>
+        <p>Discover your next favorite piece.</p>
+    </div>
+
+    <section class="container">
+        <!-- Filtering Navigation -->
+        <div class="filter-nav">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="clothing">Clothing</button>
+            <button class="filter-btn" data-filter="handbags">Handbags</button>
+            <button class="filter-btn" data-filter="accessories">Accessories</button>
+        </div>
+
+        <!-- Products -->
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be dynamically loaded here by script.js -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-quote">
+                "Fashion is not just what you wear, it’s who you are."
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Nimooh's Closet. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
