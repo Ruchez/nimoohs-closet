@@ -442,41 +442,7 @@ footer {
   font-size: 3.5rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none; /* simple mobile menu hidden by default */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--color-white);
-    flex-direction: column;
-    padding: 2rem;
-    box-shadow: var(--shadow-md);
-    text-align: center;
-  }
-  
-  .nav-links.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-  
-  .about-section {
-    flex-direction: column;
-  }
-  
-  .contact-container {
-    grid-template-columns: 1fr;
-  }
-}
+/* Responsive styling consolidated at the end of the file */
 
 /* Closet Startup Animation */
 .closet-overlay {
@@ -617,18 +583,7 @@ footer {
   font-style: italic;
 }
 
-@media (max-width: 768px) {
-  .welcome-message {
-    padding: 2rem 1.5rem;
-    width: 90%;
-  }
-  .welcome-message h1 {
-    font-size: 2.8rem;
-  }
-  .welcome-message p {
-    font-size: 1.3rem;
-  }
-}
+/* Consolidated responsive styles are at the bottom of the file */
 
 
 /* ---------------------------------------
@@ -953,8 +908,254 @@ footer {
   border-bottom: 3px solid var(--color-pink-dark);
 }
 
+/* ==========================================================================
+   CONSOLIDATED RESPONSIVE DESIGN SYSTEM
+   ========================================================================== */
+
 @media (max-width: 768px) {
-  .cursor-dot, .cursor-ring { display: none; }
-  .btn-hero { font-size: 1rem; padding: 0.9rem 1.8rem; }
-  .highlights-title { font-size: 2rem; }
+  /* Hide custom cursor/followers on mobile for touch UI efficiency & performance */
+  .cursor-dot, .cursor-ring {
+    display: none !important;
+  }
+
+  /* Header & Navigation */
+  header {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .nav-container {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .logo {
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-icons {
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .bag-icon {
+    font-size: 1.1rem;
+  }
+
+  /* Animated dropdown drawer for mobile */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--color-white);
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease, padding 0.3s ease;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    gap: 1.5rem;
+    pointer-events: none;
+    z-index: 999;
+  }
+  
+  .nav-links.active {
+    max-height: 350px;
+    opacity: 1;
+    padding: 2rem 1.5rem;
+    pointer-events: auto;
+    border-bottom: 2px solid var(--color-pink-light);
+  }
+
+  .menu-toggle {
+    display: block;
+    padding: 0.2rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    margin-top: 60px;
+    height: calc(100vh - 60px);
+    min-height: 520px;
+    padding-bottom: 3rem;
+  }
+
+  .hero-cta {
+    gap: 0.8rem;
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .btn-hero {
+    font-size: 0.95rem;
+    padding: 0.85rem 1.6rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-hero-ghost {
+    font-size: 0.85rem;
+    padding: 0.55rem 1.4rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Welcome Overlay scaling */
+  .welcome-message {
+    padding: 2.5rem 1.5rem;
+    width: 90%;
+    border-radius: 15px;
+  }
+  
+  .welcome-message h1 {
+    font-size: 2.6rem;
+  }
+  
+  .welcome-message p {
+    font-size: 1.25rem;
+  }
+
+  /* General Containers and Padding */
+  .container {
+    padding: 3rem 1.2rem;
+  }
+
+  .highlights {
+    padding: 3.5rem 1.2rem;
+  }
+
+  .highlights-title {
+    font-size: 1.9rem;
+    line-height: 1.3;
+  }
+
+  .section-title {
+    font-size: 1.9rem;
+    margin-bottom: 2rem;
+  }
+
+  /* About Page */
+  .about-section {
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .about-content {
+    text-align: center;
+    order: 2;
+  }
+
+  .about-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .about-image {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    order: 1;
+  }
+
+  /* Contact Page */
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contact-info-card {
+    padding: 2.2rem 1.2rem;
+  }
+
+  .page-header {
+    padding: 3.5rem 1.2rem;
+    margin-top: 60px;
+  }
+
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+
+  /* Product Filtering Navigation */
+  .filter-nav {
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    padding: 0.4rem 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Product Grid scaling */
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-image {
+    height: 280px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 3rem 1.2rem 1.5rem;
+  }
+
+  .footer-quote {
+    font-size: 1.4rem;
+  }
+
+  /* Admin Dashboard Mobile Responsiveness */
+  .admin-container {
+    width: 92%;
+    margin: 80px auto 40px;
+    padding: 1.2rem;
+  }
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(229,141,152,0.25);
+  }
+
+  .product-table {
+    min-width: 580px; /* Forces scrolling to prevent squishing */
+  }
+
+  .product-table th, .product-table td {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra small devices under 375px viewport width */
+@media (max-width: 375px) {
+  .logo {
+    font-size: 1.2rem;
+    letter-spacing: 0px;
+  }
+
+  .nav-icons {
+    gap: 0.8rem;
+  }
+
+  .welcome-message h1 {
+    font-size: 2.1rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 }
