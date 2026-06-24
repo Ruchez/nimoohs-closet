@@ -1,29 +1,23 @@
 const express = require('express');
 const multer = require('multer');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const path = require('path');
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// -------------------------------------------------------
-// On Vercel, the filesystem is read-only except for /tmp.
-// We store products in a JSON file in /tmp.
-// We ship a seed file (data/products.json) with the repo,
-// and copy it to /tmp on first boot.
-// -------------------------------------------------------
 const IS_VERCEL = !!process.env.VERCEL;
-const DATA_DIR = IS_VERCEL ? '/tmp' : path.join(__dirname, 'data');
+
+// ── Data storage (JSON file in /tmp on Vercel, local /data otherwise) ──
+const DATA_DIR    = IS_VERCEL ? '/tmp' : path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const UPLOADS_DIR = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
-const SEED_FILE = path.join(__dirname, 'data', 'products.json');
+const SEED_FILE   = path.join(__dirname, 'data', 'products.json');
 
-// Ensure required directories exist
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-// Initialize products.json from seed if not present (Vercel /tmp is ephemeral)
 function initProductsFile() {
     if (!fs.existsSync(PRODUCTS_FILE)) {
         if (fs.existsSync(SEED_FILE)) {
@@ -36,58 +30,51 @@ function initProductsFile() {
 
 function readProducts() {
     initProductsFile();
-    try {
-        return JSON.parse(fs.readFileSync(PRODUCTS_FILE, 'utf8'));
-    } catch {
-        return { products: [], nextId: 1 };
-    }
+    try { return JSON.parse(fs.readFileSync(PRODUCTS_FILE, 'utf8')); }
+    catch { return { products: [], nextId: 1 }; }
 }
 
 function writeProducts(data) {
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
 }
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// ── Middleware ───────────────────────────────────────────
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: IS_VERCEL, maxAge: 24 * 60 * 60 * 1000 }
+// cookie-session: stores session DATA inside the cookie itself — works on serverless!
+app.use(cookieSession({
+    name: 'nimooh_session',
+    secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025-xyz',
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    secure: false,   // set true only if you have HTTPS enforced (Vercel handles this)
+    httpOnly: true,
+    sameSite: 'lax'
 }));
 
-// Multer for image uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+// ── Multer: memory storage (works on serverless, no disk needed) ──
 const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB (Vercel limit is 4.5MB)
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) cb(null, true);
         else cb(new Error('Only image files are allowed'));
     }
 });
 
-// Auth middleware
+// ── Auth middleware ──────────────────────────────────────
 const requireAuth = (req, res, next) => {
     if (req.session && req.session.userId === 'admin') return next();
     res.status(401).json({ error: 'Unauthorized' });
 };
 
-// ── API Routes ──────────────────────────────────────────
+// ── API Routes ───────────────────────────────────────────
 
 // Check session
 app.get('/api/check-session', (req, res) => {
-    res.json({ loggedIn: req.session && req.session.userId === 'admin' });
+    res.json({ loggedIn: !!(req.session && req.session.userId === 'admin') });
 });
 
 // Login
@@ -105,7 +92,7 @@ app.post('/api/login', (req, res) => {
 
 // Logout
 app.post('/api/logout', (req, res) => {
-    req.session.destroy();
+    req.session = null; // cookie-session way to clear
     res.json({ success: true });
 });
 
@@ -115,12 +102,23 @@ app.get('/api/products', (req, res) => {
     res.json({ products: data.products });
 });
 
-// Add product (protected)
+// Add product (protected) — image saved to disk from memory buffer
 app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
 
     const { name, price, category } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
+
+    // Save the buffer to disk (UPLOADS_DIR)
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const filename = uniqueSuffix + path.extname(req.file.originalname);
+    const filePath = path.join(UPLOADS_DIR, filename);
+
+    try {
+        fs.writeFileSync(filePath, req.file.buffer);
+    } catch (err) {
+        return res.status(500).json({ error: 'Failed to save image: ' + err.message });
+    }
 
     const data = readProducts();
     const newProduct = {
@@ -128,7 +126,7 @@ app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
         name,
         price,
         category,
-        image_url: '/uploads/' + req.file.filename
+        image_url: '/uploads/' + filename
     };
     data.products.push(newProduct);
     writeProducts(data);
@@ -144,11 +142,10 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
     if (idx === -1) return res.status(404).json({ error: 'Not found' });
 
     const product = data.products[idx];
-    // Remove image file
     if (product.image_url) {
         const filename = path.basename(product.image_url);
         const filePath = path.join(UPLOADS_DIR, filename);
-        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        try { if (fs.existsSync(filePath)) fs.unlinkSync(filePath); } catch {}
     }
 
     data.products.splice(idx, 1);
@@ -156,11 +153,9 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
     res.json({ deleted: 1 });
 });
 
-// ── Start server locally ────────────────────────────────
+// ── Local dev server ─────────────────────────────────────
 if (!IS_VERCEL) {
-    app.listen(PORT, () => {
-        console.log(`✨ Nimooh's Closet running at http://localhost:${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`✨ Nimooh's Closet → http://localhost:${PORT}`));
 }
 
 module.exports = app;
