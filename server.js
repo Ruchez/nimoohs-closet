@@ -8,8 +8,8 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Setup directories
-const uploadsDir = path.join(__dirname, 'public', 'uploads');
+// Setup directories for Vercel (/tmp) or local
+const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -17,7 +17,9 @@ if (!fs.existsSync(uploadsDir)) {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(uploadsDir));
+
 app.use(session({
     secret: 'nimooh-closet-secret-key',
     resave: false,
@@ -28,7 +30,7 @@ app.use(session({
 // Setup Multer for Image Uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/uploads/')
+        cb(null, uploadsDir)
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -38,7 +40,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Database Setup
-const db = new sqlite3.Database('./database.sqlite', (err) => {
+const dbPath = process.env.VERCEL ? '/tmp/database.sqlite' : path.join(__dirname, 'database.sqlite');
+// If running on Vercel, copy the pre-seeded DB to /tmp if it doesn't exist
+if (process.env.VERCEL && !fs.existsSync(dbPath)) {
+    try {
+        fs.copyFileSync(path.join(__dirname, 'database.sqlite'), dbPath);
+    } catch (e) {
+        console.error('Could not copy initial db', e);
+    }
+}
+
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err.message);
     } else {
@@ -126,7 +138,9 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
             return res.status(500).json({ error: err.message });
         }
         if (row && row.image_url) {
-            const filePath = path.join(__dirname, 'public', row.image_url);
+            // image_url is like '/uploads/filename.png'
+            const filename = path.basename(row.image_url);
+            const filePath = path.join(uploadsDir, filename);
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);
             }
@@ -141,7 +155,11 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
     });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Export app for Vercel, or listen locally
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
