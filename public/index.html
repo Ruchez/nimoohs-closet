@@ -6,10 +6,13 @@
     <title>Nimooh's Closet | Style Your Confidence</title>
     <meta name="description" content="Discover modern, elegant, and trendy fashion at Nimooh's Closet. Quality you can trust, made for you.">
     <link rel="stylesheet" href="css/style.css">
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
     <!-- Startup Closet Animation -->
     <div class="closet-overlay" id="closet-overlay">
         <div class="closet-door left-door">
@@ -53,36 +56,71 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Style Your Confidence</h1>
-            <p>Embrace your femininity with our premium collection of trendy clothing, elegant handbags, and luxurious accessories.</p>
-            <a href="shop.html" class="btn btn-primary">Shop The Collection</a>
+    <section class="hero" id="hero">
+        <!-- Floating Particles -->
+        <div class="particles-container" id="particles-container"></div>
+
+        <!-- Floating CTA -->
+        <div class="hero-cta">
+            <a href="shop.html" class="btn-hero" id="hero-shop-btn">
+                <span class="btn-hero-shimmer"></span>
+                <span class="btn-hero-text">Shop The Collection</span>
+                <span class="btn-hero-icon"><i class="fas fa-arrow-right"></i></span>
+            </a>
+            <a href="about.html" class="btn-hero-ghost">
+                <i class="fas fa-heart"></i> Our Story
+            </a>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scroll-indicator">
+            <div class="scroll-line"></div>
+            <i class="fas fa-chevron-down bounce-arrow"></i>
         </div>
     </section>
 
     <!-- Highlights -->
     <section class="highlights">
+        <div class="highlights-header reveal-up">
+            <h2 class="highlights-title">Why Choose Us</h2>
+            <p class="highlights-sub">Everything you love, in one closet.</p>
+        </div>
         <div class="highlights-grid">
-            <div class="highlight-card">
-                <i class="fas fa-dress highlight-icon"></i>
+            <div class="highlight-card reveal-up" style="--delay: 0s">
+                <div class="card-glow"></div>
+                <div class="highlight-icon-wrap">
+                    <i class="fas fa-tshirt highlight-icon"></i>
+                </div>
                 <h3>Trendy Fashion</h3>
                 <p>Stay ahead of the curve with our curated seasonal styles.</p>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <div class="highlight-card">
-                <i class="fas fa-gem highlight-icon"></i>
+            <div class="highlight-card reveal-up" style="--delay: 0.1s">
+                <div class="card-glow"></div>
+                <div class="highlight-icon-wrap">
+                    <i class="fas fa-gem highlight-icon"></i>
+                </div>
                 <h3>Quality You Can Trust</h3>
                 <p>Premium materials for a luxurious feel that lasts.</p>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <div class="highlight-card">
-                <i class="fas fa-star highlight-icon"></i>
+            <div class="highlight-card reveal-up" style="--delay: 0.2s">
+                <div class="card-glow"></div>
+                <div class="highlight-icon-wrap">
+                    <i class="fas fa-star highlight-icon"></i>
+                </div>
                 <h3>Style That Shines</h3>
                 <p>Pieces designed to make you stand out confidently.</p>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
-            <div class="highlight-card">
-                <i class="fas fa-heart highlight-icon"></i>
+            <div class="highlight-card reveal-up" style="--delay: 0.3s">
+                <div class="card-glow"></div>
+                <div class="highlight-icon-wrap">
+                    <i class="fas fa-heart highlight-icon"></i>
+                </div>
                 <h3>Made For You</h3>
                 <p>Flattering fits and inclusive sizing for every woman.</p>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
         </div>
     </section>
@@ -91,11 +129,11 @@
     <footer>
         <div class="container">
             <div class="footer-quote">
-                "Fashion is not just what you wear, it’s who you are."
+                "Fashion is not just what you wear, it's who you are."
             </div>
             <div class="social-links">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.instagram.com/nimoohs_closet?igsh=eG1wamphbXg3YXps" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-tiktok"></i></a>
             </div>
             <div class="footer-bottom">
@@ -105,5 +143,6 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script src="js/home-animations.js"></script>
 </body>
 </html>
