@@ -1,5 +1,4 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
 const session = require('express-session');
 const path = require('path');
@@ -8,77 +7,95 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Setup directories for Vercel (/tmp) or local
-const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+// -------------------------------------------------------
+// On Vercel, the filesystem is read-only except for /tmp.
+// We store products in a JSON file in /tmp.
+// We ship a seed file (data/products.json) with the repo,
+// and copy it to /tmp on first boot.
+// -------------------------------------------------------
+const IS_VERCEL = !!process.env.VERCEL;
+const DATA_DIR = IS_VERCEL ? '/tmp' : path.join(__dirname, 'data');
+const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const UPLOADS_DIR = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
+const SEED_FILE = path.join(__dirname, 'data', 'products.json');
+
+// Ensure required directories exist
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+
+// Initialize products.json from seed if not present (Vercel /tmp is ephemeral)
+function initProductsFile() {
+    if (!fs.existsSync(PRODUCTS_FILE)) {
+        if (fs.existsSync(SEED_FILE)) {
+            fs.copyFileSync(SEED_FILE, PRODUCTS_FILE);
+        } else {
+            fs.writeFileSync(PRODUCTS_FILE, JSON.stringify({ products: [], nextId: 1 }));
+        }
+    }
+}
+
+function readProducts() {
+    initProductsFile();
+    try {
+        return JSON.parse(fs.readFileSync(PRODUCTS_FILE, 'utf8'));
+    } catch {
+        return { products: [], nextId: 1 };
+    }
+}
+
+function writeProducts(data) {
+    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
 }
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(uploadsDir));
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 app.use(session({
-    secret: 'nimooh-closet-secret-key',
+    secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: IS_VERCEL, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Setup Multer for Image Uploads
+// Multer for image uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadsDir)
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage: storage });
-
-// Database Setup
-const dbPath = process.env.VERCEL ? '/tmp/database.sqlite' : path.join(__dirname, 'database.sqlite');
-// If running on Vercel, copy the pre-seeded DB to /tmp if it doesn't exist
-if (process.env.VERCEL && !fs.existsSync(dbPath)) {
-    try {
-        fs.copyFileSync(path.join(__dirname, 'database.sqlite'), dbPath);
-    } catch (e) {
-        console.error('Could not copy initial db', e);
-    }
-}
-
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error opening database', err.message);
-    } else {
-        console.log('Connected to the SQLite database.');
-        db.run(`CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            price TEXT NOT NULL,
-            category TEXT NOT NULL,
-            image_url TEXT NOT NULL
-        )`);
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) cb(null, true);
+        else cb(new Error('Only image files are allowed'));
     }
 });
 
-// Authentication Middleware
+// Auth middleware
 const requireAuth = (req, res, next) => {
-    if (req.session.userId === 'admin') {
-        next();
-    } else {
-        res.status(401).json({ error: 'Unauthorized' });
-    }
+    if (req.session && req.session.userId === 'admin') return next();
+    res.status(401).json({ error: 'Unauthorized' });
 };
 
-// Routes
-// 1. Admin Login
+// ── API Routes ──────────────────────────────────────────
+
+// Check session
+app.get('/api/check-session', (req, res) => {
+    res.json({ loggedIn: req.session && req.session.userId === 'admin' });
+});
+
+// Login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    if (username === 'ghoul' && password === 'morio1234') {
+    const ADMIN_USER = process.env.ADMIN_USERNAME || 'ghoul';
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'morio1234';
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
         req.session.userId = 'admin';
         res.json({ success: true, message: 'Logged in successfully' });
     } else {
@@ -86,79 +103,63 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-app.get('/api/check-session', (req, res) => {
-    if (req.session.userId === 'admin') {
-        res.json({ loggedIn: true });
-    } else {
-        res.json({ loggedIn: false });
-    }
-});
-
+// Logout
 app.post('/api/logout', (req, res) => {
     req.session.destroy();
     res.json({ success: true });
 });
 
-// 2. Get Products (Public)
+// Get all products (public)
 app.get('/api/products', (req, res) => {
-    db.all("SELECT * FROM products", [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({ products: rows });
-    });
+    const data = readProducts();
+    res.json({ products: data.products });
 });
 
-// 3. Add Product (Protected)
+// Add product (protected)
 app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
+
     const { name, price, category } = req.body;
-    
-    if (!req.file) {
-        return res.status(400).json({ error: 'No image uploaded' });
+    if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
+
+    const data = readProducts();
+    const newProduct = {
+        id: data.nextId++,
+        name,
+        price,
+        category,
+        image_url: '/uploads/' + req.file.filename
+    };
+    data.products.push(newProduct);
+    writeProducts(data);
+
+    res.json(newProduct);
+});
+
+// Delete product (protected)
+app.delete('/api/products/:id', requireAuth, (req, res) => {
+    const id = parseInt(req.params.id);
+    const data = readProducts();
+    const idx = data.products.findIndex(p => p.id === id);
+    if (idx === -1) return res.status(404).json({ error: 'Not found' });
+
+    const product = data.products[idx];
+    // Remove image file
+    if (product.image_url) {
+        const filename = path.basename(product.image_url);
+        const filePath = path.join(UPLOADS_DIR, filename);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
 
-    const imageUrl = '/uploads/' + req.file.filename;
-
-    const sql = 'INSERT INTO products (name, price, category, image_url) VALUES (?, ?, ?, ?)';
-    db.run(sql, [name, price, category, imageUrl], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ id: this.lastID, name, price, category, image_url: imageUrl });
-    });
+    data.products.splice(idx, 1);
+    writeProducts(data);
+    res.json({ deleted: 1 });
 });
 
-// 4. Delete Product (Protected)
-app.delete('/api/products/:id', requireAuth, (req, res) => {
-    const id = req.params.id;
-    // First get the image url to delete the file
-    db.get('SELECT image_url FROM products WHERE id = ?', [id], (err, row) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        if (row && row.image_url) {
-            // image_url is like '/uploads/filename.png'
-            const filename = path.basename(row.image_url);
-            const filePath = path.join(uploadsDir, filename);
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
-            }
-        }
-        
-        db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            res.json({ deleted: this.changes });
-        });
-    });
-});
-
-// Export app for Vercel, or listen locally
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+// ── Start server locally ────────────────────────────────
+if (!IS_VERCEL) {
     app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
+        console.log(`✨ Nimooh's Closet running at http://localhost:${PORT}`);
     });
 }
 

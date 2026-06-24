@@ -1,0 +1,26 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Elegant Evening Dress",
+      "price": "$120.00",
+      "category": "clothing",
+      "image_url": "/images/product1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Luxury Handbag",
+      "price": "$85.00",
+      "category": "accessories",
+      "image_url": "/images/product2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Chic Summer Top",
+      "price": "$45.00",
+      "category": "clothing",
+      "image_url": "/images/product3.jpg"
+    }
+  ],
+  "nextId": 4
+}
