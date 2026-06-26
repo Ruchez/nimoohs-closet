@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('name', document.getElementById('product-name').value);
         formData.append('price', document.getElementById('product-price').value);
         formData.append('category', document.getElementById('product-category').value);
-        formData.append('image', document.getElementById('product-image').files[0]);
+        
+        const files = document.getElementById('product-images').files;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('images', files[i]);
+        }
 
         const res = await fetch('/api/products', {
             method: 'POST',

@@ -102,17 +102,19 @@ app.get('/api/products', (req, res) => {
     res.json({ products: data.products });
 });
 
-// Add product (protected) — image saved as base64 string
-app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
-    if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
+// Add product (protected) — images saved as base64 strings
+app.post('/api/products', requireAuth, upload.array('images', 5), (req, res) => {
+    if (!req.files || req.files.length === 0) return res.status(400).json({ error: 'No images uploaded' });
 
     const { name, price, category } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
 
-    // Convert image buffer to base64 data URL
-    const base64Image = req.file.buffer.toString('base64');
-    const mimeType = req.file.mimetype || 'image/jpeg';
-    const image_url = `data:${mimeType};base64,${base64Image}`;
+    // Convert image buffers to base64 data URLs
+    const image_urls = req.files.map(file => {
+        const base64Image = file.buffer.toString('base64');
+        const mimeType = file.mimetype || 'image/jpeg';
+        return `data:${mimeType};base64,${base64Image}`;
+    });
 
     const data = readProducts();
     const newProduct = {
@@ -120,7 +122,8 @@ app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
         name,
         price,
         category,
-        image_url: image_url
+        image_url: image_urls[0], // fallback for backwards compatibility
+        image_urls: image_urls
     };
     data.products.push(newProduct);
     writeProducts(data);
