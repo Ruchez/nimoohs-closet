@@ -102,23 +102,17 @@ app.get('/api/products', (req, res) => {
     res.json({ products: data.products });
 });
 
-// Add product (protected) — image saved to disk from memory buffer
+// Add product (protected) — image saved as base64 string
 app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
 
     const { name, price, category } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
 
-    // Save the buffer to disk (UPLOADS_DIR)
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const filename = uniqueSuffix + path.extname(req.file.originalname);
-    const filePath = path.join(UPLOADS_DIR, filename);
-
-    try {
-        fs.writeFileSync(filePath, req.file.buffer);
-    } catch (err) {
-        return res.status(500).json({ error: 'Failed to save image: ' + err.message });
-    }
+    // Convert image buffer to base64 data URL
+    const base64Image = req.file.buffer.toString('base64');
+    const mimeType = req.file.mimetype || 'image/jpeg';
+    const image_url = `data:${mimeType};base64,${base64Image}`;
 
     const data = readProducts();
     const newProduct = {
@@ -126,7 +120,7 @@ app.post('/api/products', requireAuth, upload.single('image'), (req, res) => {
         name,
         price,
         category,
-        image_url: '/uploads/' + filename
+        image_url: image_url
     };
     data.products.push(newProduct);
     writeProducts(data);
@@ -142,7 +136,7 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
     if (idx === -1) return res.status(404).json({ error: 'Not found' });
 
     const product = data.products[idx];
-    if (product.image_url) {
+    if (product.image_url && product.image_url.startsWith('/uploads/')) {
         const filename = path.basename(product.image_url);
         const filePath = path.join(UPLOADS_DIR, filename);
         try { if (fs.existsSync(filePath)) fs.unlinkSync(filePath); } catch {}
