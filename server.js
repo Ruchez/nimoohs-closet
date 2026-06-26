@@ -3,6 +3,7 @@ const multer = require('multer');
 const cookieSession = require('cookie-session');
 const path = require('path');
 const fs = require('fs');
+const { kv } = require('@vercel/kv');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,13 +29,31 @@ function initProductsFile() {
     }
 }
 
-function readProducts() {
+async function readProducts() {
+    if (IS_VERCEL && process.env.KV_REST_API_URL) {
+        try {
+            const data = await kv.get('nimooh_products');
+            return data || { products: [], nextId: 1 };
+        } catch (err) {
+            console.error('KV Read Error:', err);
+            return { products: [], nextId: 1 };
+        }
+    }
+    
     initProductsFile();
     try { return JSON.parse(fs.readFileSync(PRODUCTS_FILE, 'utf8')); }
     catch { return { products: [], nextId: 1 }; }
 }
 
-function writeProducts(data) {
+async function writeProducts(data) {
+    if (IS_VERCEL && process.env.KV_REST_API_URL) {
+        try {
+            await kv.set('nimooh_products', data);
+            return;
+        } catch (err) {
+            console.error('KV Write Error:', err);
+        }
+    }
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
 }
 
@@ -97,13 +116,13 @@ app.post('/api/logout', (req, res) => {
 });
 
 // Get all products (public)
-app.get('/api/products', (req, res) => {
-    const data = readProducts();
+app.get('/api/products', async (req, res) => {
+    const data = await readProducts();
     res.json({ products: data.products });
 });
 
 // Add product (protected) — images saved as base64 strings
-app.post('/api/products', requireAuth, upload.array('images', 5), (req, res) => {
+app.post('/api/products', requireAuth, upload.array('images', 5), async (req, res) => {
     if (!req.files || req.files.length === 0) return res.status(400).json({ error: 'No images uploaded' });
 
     const { name, price, category } = req.body;
@@ -116,7 +135,7 @@ app.post('/api/products', requireAuth, upload.array('images', 5), (req, res) => 
         return `data:${mimeType};base64,${base64Image}`;
     });
 
-    const data = readProducts();
+    const data = await readProducts();
     const newProduct = {
         id: data.nextId++,
         name,
@@ -126,15 +145,15 @@ app.post('/api/products', requireAuth, upload.array('images', 5), (req, res) => 
         image_urls: image_urls
     };
     data.products.push(newProduct);
-    writeProducts(data);
+    await writeProducts(data);
 
     res.json(newProduct);
 });
 
 // Delete product (protected)
-app.delete('/api/products/:id', requireAuth, (req, res) => {
+app.delete('/api/products/:id', requireAuth, async (req, res) => {
     const id = parseInt(req.params.id);
-    const data = readProducts();
+    const data = await readProducts();
     const idx = data.products.findIndex(p => p.id === id);
     if (idx === -1) return res.status(404).json({ error: 'Not found' });
 
@@ -146,7 +165,7 @@ app.delete('/api/products/:id', requireAuth, (req, res) => {
     }
 
     data.products.splice(idx, 1);
-    writeProducts(data);
+    await writeProducts(data);
     res.json({ deleted: 1 });
 });
 
