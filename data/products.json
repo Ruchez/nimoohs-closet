@@ -2,34 +2,6 @@
   "products": [
     {
       "id": 1,
-      "name": "Elegant Evening Dress",
-      "price": "$120.00",
-      "category": "clothing",
-      "image_url": "/images/product_dress.png"
-    },
-    {
-      "id": 2,
-      "name": "Luxury Handbag",
-      "price": "$85.00",
-      "category": "handbags",
-      "image_url": "/images/product_bag.png"
-    },
-    {
-      "id": 3,
-      "name": "Chic Accessory",
-      "price": "$45.00",
-      "category": "accessories",
-      "image_url": "/images/product_accessory.png"
-    },
-    {
-      "id": 4,
-      "name": "Nimoh",
-      "price": "priceless",
-      "category": "clothing",
-      "image_url": "/uploads/1782318261726-92897849.jpeg"
-    },
-    {
-      "id": 5,
       "name": "Dress",
       "price": "1500",
       "category": "clothing",
@@ -41,5 +13,5 @@
       ]
     }
   ],
-  "nextId": 6
+  "nextId": 2
 }
