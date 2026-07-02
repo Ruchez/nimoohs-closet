@@ -3,57 +3,82 @@ const multer = require('multer');
 const cookieSession = require('cookie-session');
 const path = require('path');
 const fs = require('fs');
-const { kv } = require('@vercel/kv');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 const IS_VERCEL = !!process.env.VERCEL;
 
-// ── Data storage (JSON file in /tmp on Vercel, local /data otherwise) ──
-const DATA_DIR    = IS_VERCEL ? '/tmp' : path.join(__dirname, 'data');
+// ── GitHub API config ────────────────────────────────────
+const GITHUB_TOKEN  = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER  = process.env.GITHUB_OWNER  || 'Ruchez';
+const GITHUB_REPO   = process.env.GITHUB_REPO   || 'nimoohs-closet';
+const GITHUB_FILE   = process.env.GITHUB_FILE   || 'data/products.json';
+const USE_GITHUB    = IS_VERCEL && !!GITHUB_TOKEN;
+
+// ── Local data paths (used for local dev) ───────────────
+const DATA_DIR      = path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
-const UPLOADS_DIR = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
-const SEED_FILE   = path.join(__dirname, 'data', 'products.json');
+const UPLOADS_DIR   = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-function initProductsFile() {
-    if (!fs.existsSync(PRODUCTS_FILE)) {
-        if (fs.existsSync(SEED_FILE)) {
-            fs.copyFileSync(SEED_FILE, PRODUCTS_FILE);
-        } else {
-            fs.writeFileSync(PRODUCTS_FILE, JSON.stringify({ products: [], nextId: 1 }));
-        }
-    }
+// ── GitHub API Helpers ───────────────────────────────────
+async function githubRequest(method, endpoint, body) {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/${endpoint}`;
+    const res = await fetch(url, {
+        method,
+        headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        body: body ? JSON.stringify(body) : undefined
+    });
+    return res.json();
 }
 
 async function readProducts() {
-    if (IS_VERCEL && process.env.KV_REST_API_URL) {
+    if (USE_GITHUB) {
         try {
-            const data = await kv.get('nimooh_products');
-            return data || { products: [], nextId: 1 };
+            const result = await githubRequest('GET', `contents/${GITHUB_FILE}`);
+            if (result.content) {
+                const content = Buffer.from(result.content, 'base64').toString('utf8');
+                return JSON.parse(content);
+            }
         } catch (err) {
-            console.error('KV Read Error:', err);
-            return { products: [], nextId: 1 };
+            console.error('GitHub Read Error:', err);
         }
+        return { products: [], nextId: 1 };
     }
-    
-    initProductsFile();
+    // Local fallback
+    if (!fs.existsSync(PRODUCTS_FILE)) {
+        fs.writeFileSync(PRODUCTS_FILE, JSON.stringify({ products: [], nextId: 1 }, null, 2));
+    }
     try { return JSON.parse(fs.readFileSync(PRODUCTS_FILE, 'utf8')); }
     catch { return { products: [], nextId: 1 }; }
 }
 
 async function writeProducts(data) {
-    if (IS_VERCEL && process.env.KV_REST_API_URL) {
+    if (USE_GITHUB) {
         try {
-            await kv.set('nimooh_products', data);
+            // Get current file SHA (required for GitHub updates)
+            const current = await githubRequest('GET', `contents/${GITHUB_FILE}`);
+            const sha = current.sha;
+
+            const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
+            await githubRequest('PUT', `contents/${GITHUB_FILE}`, {
+                message: 'chore: update products.json via admin portal',
+                content,
+                sha
+            });
             return;
         } catch (err) {
-            console.error('KV Write Error:', err);
+            console.error('GitHub Write Error:', err);
         }
     }
+    // Local fallback
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
 }
 
@@ -68,7 +93,7 @@ app.use(cookieSession({
     name: 'nimooh_session',
     secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025-xyz',
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    secure: false,   // set true only if you have HTTPS enforced (Vercel handles this)
+    secure: false,
     httpOnly: true,
     sameSite: 'lax'
 }));
@@ -76,7 +101,7 @@ app.use(cookieSession({
 // ── Multer: memory storage (works on serverless, no disk needed) ──
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB (Vercel limit is 4.5MB)
+    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) cb(null, true);
         else cb(new Error('Only image files are allowed'));
@@ -111,7 +136,7 @@ app.post('/api/login', (req, res) => {
 
 // Logout
 app.post('/api/logout', (req, res) => {
-    req.session = null; // cookie-session way to clear
+    req.session = null;
     res.json({ success: true });
 });
 
@@ -156,13 +181,6 @@ app.delete('/api/products/:id', requireAuth, async (req, res) => {
     const data = await readProducts();
     const idx = data.products.findIndex(p => p.id === id);
     if (idx === -1) return res.status(404).json({ error: 'Not found' });
-
-    const product = data.products[idx];
-    if (product.image_url && product.image_url.startsWith('/uploads/')) {
-        const filename = path.basename(product.image_url);
-        const filePath = path.join(UPLOADS_DIR, filename);
-        try { if (fs.existsSync(filePath)) fs.unlinkSync(filePath); } catch {}
-    }
 
     data.products.splice(idx, 1);
     await writeProducts(data);
