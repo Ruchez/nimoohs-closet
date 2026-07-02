@@ -13,15 +13,18 @@ const IS_VERCEL = !!process.env.VERCEL;
 const GITHUB_TOKEN  = process.env.GITHUB_TOKEN;
 const GITHUB_OWNER  = process.env.GITHUB_OWNER  || 'Ruchez';
 const GITHUB_REPO   = process.env.GITHUB_REPO   || 'nimoohs-closet';
-const GITHUB_FILE   = process.env.GITHUB_FILE   || 'data/products.json';
+const GITHUB_BRANCH = 'main';
 const USE_GITHUB    = IS_VERCEL && !!GITHUB_TOKEN;
+
+// Raw GitHub CDN base URL for serving committed images
+const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 
 // ── Local data paths (used for local dev) ───────────────
 const DATA_DIR      = path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
-const UPLOADS_DIR   = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'public', 'uploads');
+const UPLOADS_DIR   = path.join(__dirname, 'public', 'uploads');
 
-if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+if (!IS_VERCEL && !fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 // ── GitHub API Helpers ───────────────────────────────────
@@ -32,20 +35,24 @@ async function githubRequest(method, endpoint, body) {
         headers: {
             'Authorization': `token ${GITHUB_TOKEN}`,
             'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'nimooh-closet-server'
         },
         body: body ? JSON.stringify(body) : undefined
     });
     return res.json();
 }
 
+// Read products — uses Git blob API to handle large files if needed
 async function readProducts() {
     if (USE_GITHUB) {
         try {
-            const result = await githubRequest('GET', `contents/${GITHUB_FILE}`);
-            if (result.content) {
-                const content = Buffer.from(result.content, 'base64').toString('utf8');
-                return JSON.parse(content);
+            // Use raw CDN URL to bypass the 1MB Contents API limit
+            const res = await fetch(`${RAW_BASE}/data/products.json`, {
+                headers: { 'Cache-Control': 'no-cache' }
+            });
+            if (res.ok) {
+                return await res.json();
             }
         } catch (err) {
             console.error('GitHub Read Error:', err);
@@ -60,48 +67,72 @@ async function readProducts() {
     catch { return { products: [], nextId: 1 }; }
 }
 
+// Write products.json back to GitHub
 async function writeProducts(data) {
     if (USE_GITHUB) {
         try {
-            // Get current file SHA (required for GitHub updates)
-            const current = await githubRequest('GET', `contents/${GITHUB_FILE}`);
+            // Get current SHA
+            const current = await githubRequest('GET', `contents/data/products.json`);
             const sha = current.sha;
-
             const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
-            await githubRequest('PUT', `contents/${GITHUB_FILE}`, {
+            await githubRequest('PUT', `contents/data/products.json`, {
                 message: 'chore: update products.json via admin portal',
                 content,
-                sha
+                sha,
+                branch: GITHUB_BRANCH
             });
             return;
         } catch (err) {
             console.error('GitHub Write Error:', err);
         }
     }
-    // Local fallback
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
+}
+
+// Upload an image file to GitHub repo, returns its raw CDN URL
+async function uploadImageToGitHub(buffer, mimetype, originalname) {
+    const ext = originalname.includes('.') ? '.' + originalname.split('.').pop() : '.jpg';
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`;
+    const repoPath = `public/uploads/${filename}`;
+    const content = buffer.toString('base64');
+
+    // Check if file already exists (get SHA)
+    let sha;
+    try {
+        const existing = await githubRequest('GET', `contents/${repoPath}`);
+        if (existing.sha) sha = existing.sha;
+    } catch (_) {}
+
+    const body = {
+        message: `feat: add product image ${filename}`,
+        content,
+        branch: GITHUB_BRANCH
+    };
+    if (sha) body.sha = sha;
+
+    await githubRequest('PUT', `contents/${repoPath}`, body);
+    return `${RAW_BASE}/${repoPath}`;
 }
 
 // ── Middleware ───────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(UPLOADS_DIR));
 
-// cookie-session: stores session DATA inside the cookie itself — works on serverless!
+// cookie-session
 app.use(cookieSession({
     name: 'nimooh_session',
     secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025-xyz',
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 24 * 60 * 60 * 1000,
     secure: false,
     httpOnly: true,
     sameSite: 'lax'
 }));
 
-// ── Multer: memory storage (works on serverless, no disk needed) ──
+// ── Multer: memory storage ───────────────────────────────
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB
+    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB per file
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) cb(null, true);
         else cb(new Error('Only image files are allowed'));
@@ -116,12 +147,10 @@ const requireAuth = (req, res, next) => {
 
 // ── API Routes ───────────────────────────────────────────
 
-// Check session
 app.get('/api/check-session', (req, res) => {
     res.json({ loggedIn: !!(req.session && req.session.userId === 'admin') });
 });
 
-// Login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const ADMIN_USER = process.env.ADMIN_USERNAME || 'ghoul';
@@ -134,7 +163,6 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-// Logout
 app.post('/api/logout', (req, res) => {
     req.session = null;
     res.json({ success: true });
@@ -146,19 +174,34 @@ app.get('/api/products', async (req, res) => {
     res.json({ products: data.products });
 });
 
-// Add product (protected) — images saved as base64 strings
+// Add product (protected)
 app.post('/api/products', requireAuth, upload.array('images', 5), async (req, res) => {
     if (!req.files || req.files.length === 0) return res.status(400).json({ error: 'No images uploaded' });
 
     const { name, price, category } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
 
-    // Convert image buffers to base64 data URLs
-    const image_urls = req.files.map(file => {
-        const base64Image = file.buffer.toString('base64');
-        const mimeType = file.mimetype || 'image/jpeg';
-        return `data:${mimeType};base64,${base64Image}`;
-    });
+    let image_urls;
+
+    if (USE_GITHUB) {
+        // Upload each image as a file to GitHub, get permanent CDN URLs
+        try {
+            image_urls = await Promise.all(req.files.map(file =>
+                uploadImageToGitHub(file.buffer, file.mimetype, file.originalname)
+            ));
+        } catch (err) {
+            return res.status(500).json({ error: 'Failed to upload images to GitHub: ' + err.message });
+        }
+    } else {
+        // Local dev: save to disk and serve as /uploads/...
+        if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+        image_urls = req.files.map(file => {
+            const ext = path.extname(file.originalname) || '.jpg';
+            const filename = `${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`;
+            fs.writeFileSync(path.join(UPLOADS_DIR, filename), file.buffer);
+            return `/uploads/${filename}`;
+        });
+    }
 
     const data = await readProducts();
     const newProduct = {
@@ -166,8 +209,8 @@ app.post('/api/products', requireAuth, upload.array('images', 5), async (req, re
         name,
         price,
         category,
-        image_url: image_urls[0], // fallback for backwards compatibility
-        image_urls: image_urls
+        image_url: image_urls[0],
+        image_urls
     };
     data.products.push(newProduct);
     await writeProducts(data);
