@@ -29,7 +29,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1782975932284-929393.jpeg"
       ]
+    },
+    {
+      "id": 5,
+      "name": "Dr",
+      "price": "$299",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956306000-337604.jpeg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956306000-337604.jpeg"
+      ]
     }
   ],
-  "nextId": 5
+  "nextId": 6
 }
