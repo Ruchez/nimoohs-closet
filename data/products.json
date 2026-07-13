@@ -11,16 +11,6 @@
       ]
     },
     {
-      "id": 2,
-      "name": "Luxury Handbag",
-      "price": "$85.00",
-      "category": "handbags",
-      "image_url": "/images/product_bag.png",
-      "image_urls": [
-        "/images/product_bag.png"
-      ]
-    },
-    {
       "id": 3,
       "name": "Chic Accessory",
       "price": "$45.00",
