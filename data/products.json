@@ -49,7 +49,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956314262-496939.jpeg"
       ]
+    },
+    {
+      "id": 7,
+      "name": "I w",
+      "price": "567",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956390242-156405.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956390242-156405.jpg"
+      ]
     }
   ],
-  "nextId": 7
+  "nextId": 8
 }
