@@ -41,16 +41,6 @@
       ]
     },
     {
-      "id": 8,
-      "name": "drop ",
-      "price": "256",
-      "category": "handbags",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784006587977-39160.jpg",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784006587977-39160.jpg"
-      ]
-    },
-    {
       "id": 9,
       "name": "Elegant dinner dress ",
       "price": "2000tl",
