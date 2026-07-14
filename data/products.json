@@ -1,16 +1,6 @@
 {
   "products": [
     {
-      "id": 4,
-      "name": "dress",
-      "price": "1500",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1782975932284-929393.jpeg",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1782975932284-929393.jpeg"
-      ]
-    },
-    {
       "id": 10,
       "name": "Elegant dress",
       "price": "2000tl",
