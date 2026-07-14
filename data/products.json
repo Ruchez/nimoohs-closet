@@ -129,16 +129,6 @@
       ]
     },
     {
-      "id": 22,
-      "name": "Fancy dress ",
-      "price": "1500tl",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784044003643-989088.png",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784044003643-989088.png"
-      ]
-    },
-    {
       "id": 23,
       "name": "Fancy dress ",
       "price": "1500tl",
