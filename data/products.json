@@ -86,7 +86,18 @@
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043809816-851880.png",
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043810989-143516.png"
       ]
+    },
+    {
+      "id": 18,
+      "name": "Body con dress",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043869014-645709.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043869014-645709.png",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043870225-470429.png"
+      ]
     }
   ],
-  "nextId": 18
+  "nextId": 19
 }
