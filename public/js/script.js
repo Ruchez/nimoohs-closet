@@ -44,13 +44,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If we are on a page with productGrid (Shop page)
     if (productGrid) {
+        // Show loading spinner
+        productGrid.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
+                <div style="display:inline-block;width:48px;height:48px;border:4px solid #FCE8EA;border-top-color:#E58D98;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+                <p style="margin-top:1rem;color:#B95360;font-family:'Outfit',sans-serif;font-size:1.1rem;">Loading products…</p>
+            </div>
+            <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+        `;
         fetch('/api/products')
             .then(res => res.json())
             .then(data => {
                 renderProducts(data.products);
                 bindFilters();
             })
-            .catch(err => console.error('Error fetching products:', err));
+            .catch(err => {
+                productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#B95360;">Could not load products. Please refresh the page.</p>';
+                console.error('Error fetching products:', err);
+            });
     } else {
         // If not on shop page, just bind generic WhatsApp buttons
         bindWhatsAppButtons(document.querySelectorAll('.btn-whatsapp'));
@@ -58,6 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderProducts(products) {
         productGrid.innerHTML = '';
+        if (products.length === 0) {
+            productGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#B95360;padding:3rem;">No products available yet. Check back soon!</p>';
+            return;
+        }
         products.forEach(p => {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -66,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle multiple images
             const images = p.image_urls && p.image_urls.length > 0 ? p.image_urls : [p.image_url];
             const hasMultiple = images.length > 1;
-            
-            let imageHTML = images.map((src, i) => 
-                `<img src="${src}" alt="${p.name}" class="${i === 0 ? 'active' : ''}" style="display: ${i === 0 ? 'block' : 'none'};">`
+
+            let imageHTML = images.map((src, i) =>
+                `<img src="${src}" alt="${p.name}" class="${i === 0 ? 'active' : ''}" style="display:${i === 0 ? 'block' : 'none'};" loading="lazy">`
             ).join('');
-            
+
             if (hasMultiple) {
                 imageHTML += `
                     <button class="carousel-btn prev" aria-label="Previous image">&lt;</button>
@@ -90,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             productGrid.appendChild(card);
         });
-        // Bind WhatsApp buttons for dynamically created cards
         bindWhatsAppButtons(productGrid.querySelectorAll('.btn-whatsapp'));
         bindCarouselButtons();
     }
