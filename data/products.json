@@ -32,7 +32,18 @@
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043536114-689606.png",
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043537225-106154.png"
       ]
+    },
+    {
+      "id": 13,
+      "name": "Dinner dress",
+      "price": "2000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043618649-266167.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043618649-266167.png",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043619880-397755.png"
+      ]
     }
   ],
-  "nextId": 13
+  "nextId": 14
 }
