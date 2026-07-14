@@ -1,16 +1,6 @@
 {
   "products": [
     {
-      "id": 3,
-      "name": "Chic Accessory",
-      "price": "$45.00",
-      "category": "accessories",
-      "image_url": "/images/product_accessory.png",
-      "image_urls": [
-        "/images/product_accessory.png"
-      ]
-    },
-    {
       "id": 4,
       "name": "dress",
       "price": "1500",
