@@ -15,12 +15,15 @@ const GITHUB_OWNER  = process.env.GITHUB_OWNER  || 'Ruchez';
 const GITHUB_REPO   = process.env.GITHUB_REPO   || 'nimoohs-closet';
 const GITHUB_BRANCH = 'main';
 const USE_GITHUB    = IS_VERCEL && !!GITHUB_TOKEN;
-
-// Raw GitHub CDN base URL for serving committed images
 const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 const PRODUCTS_REPO_PATH = 'data/products.json';
 
-// ── Local data paths (used for local dev) ───────────────
+// ── In-memory cache (speeds up reads; invalidated on every write) ──
+let _cache = null;
+let _cacheTime = 0;
+const CACHE_TTL_MS = 30 * 1000; // 30 seconds
+
+// ── Local data paths ─────────────────────────────────────
 const DATA_DIR      = path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const UPLOADS_DIR   = path.join(__dirname, 'public', 'uploads');
@@ -41,24 +44,28 @@ async function githubRequest(method, endpoint, body) {
         },
         body: body ? JSON.stringify(body) : undefined
     });
-    const json = await res.json();
-    if (!res.ok && !body) {
-        // GET can return 404 (file not found) which is ok
-    }
-    return json;
+    return res.json();
 }
 
-// Read products — via GitHub Contents API (real-time, no CDN cache)
+// Read products — checks in-memory cache first, then GitHub Contents API
 async function readProducts() {
     if (USE_GITHUB) {
+        // Return cached data if still fresh
+        if (_cache && (Date.now() - _cacheTime < CACHE_TTL_MS)) {
+            return _cache;
+        }
         try {
             const result = await githubRequest('GET', `contents/${PRODUCTS_REPO_PATH}`);
             if (result.content && result.encoding === 'base64') {
                 const raw = Buffer.from(result.content.replace(/\n/g, ''), 'base64').toString('utf8');
-                return JSON.parse(raw);
+                const data = JSON.parse(raw);
+                _cache = data;
+                _cacheTime = Date.now();
+                return data;
             }
         } catch (err) {
             console.error('GitHub Read Error:', err);
+            if (_cache) return _cache; // serve stale cache on error
         }
         return { products: [], nextId: 1 };
     }
@@ -70,11 +77,14 @@ async function readProducts() {
     catch { return { products: [], nextId: 1 }; }
 }
 
-// Write products.json back to GitHub
+// Write products.json — updates cache immediately so same instance reflects change at once
 async function writeProducts(data) {
+    // Update in-memory cache immediately (no waiting for GitHub)
+    _cache = data;
+    _cacheTime = Date.now();
+
     if (USE_GITHUB) {
         try {
-            // Get current SHA (needed for update)
             const current = await githubRequest('GET', `contents/${PRODUCTS_REPO_PATH}`);
             const sha = current.sha;
             if (!sha) throw new Error('Could not get current file SHA');
@@ -85,7 +95,7 @@ async function writeProducts(data) {
                 sha,
                 branch: GITHUB_BRANCH
             });
-            if (!result.commit) throw new Error('GitHub write did not return a commit: ' + JSON.stringify(result));
+            if (!result.commit) throw new Error('GitHub write failed: ' + JSON.stringify(result).substring(0, 200));
             return;
         } catch (err) {
             console.error('GitHub Write Error:', err);
@@ -95,26 +105,22 @@ async function writeProducts(data) {
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2));
 }
 
-// Upload an image file to GitHub repo, returns its permanent raw CDN URL
+// Upload an image file to GitHub, return its permanent CDN URL
 async function uploadImageToGitHub(buffer, mimetype, originalname) {
-    const ext = originalname.includes('.') ? '.' + originalname.split('.').pop().toLowerCase() : '.jpg';
+    const ext = (originalname.includes('.') ? '.' + originalname.split('.').pop().toLowerCase() : '.jpg');
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`;
     const repoPath = `public/uploads/${filename}`;
     const content = buffer.toString('base64');
 
-    const body = {
+    const result = await githubRequest('PUT', `contents/${repoPath}`, {
         message: `feat: add product image ${filename}`,
         content,
         branch: GITHUB_BRANCH
-    };
+    });
 
-    const result = await githubRequest('PUT', `contents/${repoPath}`, body);
-
-    // Verify the upload succeeded
     if (!result.commit && !result.content) {
-        throw new Error(`Failed to upload image to GitHub: ${JSON.stringify(result)}`);
+        throw new Error(`Image upload to GitHub failed: ${JSON.stringify(result).substring(0, 200)}`);
     }
-
     return `${RAW_BASE}/${repoPath}`;
 }
 
@@ -123,7 +129,6 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// cookie-session
 app.use(cookieSession({
     name: 'nimooh_session',
     secret: process.env.SESSION_SECRET || 'nimooh-closet-secret-key-2025-xyz',
@@ -133,17 +138,15 @@ app.use(cookieSession({
     sameSite: 'lax'
 }));
 
-// ── Multer: memory storage ───────────────────────────────
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB per file
+    limits: { fileSize: 4 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) cb(null, true);
         else cb(new Error('Only image files are allowed'));
     }
 });
 
-// ── Auth middleware ──────────────────────────────────────
 const requireAuth = (req, res, next) => {
     if (req.session && req.session.userId === 'admin') return next();
     res.status(401).json({ error: 'Unauthorized' });
@@ -178,7 +181,6 @@ app.get('/api/products', async (req, res) => {
         const data = await readProducts();
         res.json({ products: data.products });
     } catch (err) {
-        console.error('GET /api/products error:', err);
         res.status(500).json({ products: [], error: 'Could not load products' });
     }
 });
@@ -186,25 +188,21 @@ app.get('/api/products', async (req, res) => {
 // Add product (protected)
 app.post('/api/products', requireAuth, upload.array('images', 5), async (req, res) => {
     if (!req.files || req.files.length === 0) return res.status(400).json({ error: 'No images uploaded' });
-
     const { name, price, category } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Missing fields' });
 
-    let image_urls;
+    let image_urls = [];
 
     if (USE_GITHUB) {
-        // Upload each image sequentially (not parallel) to avoid race conditions
-        image_urls = [];
         for (const file of req.files) {
             try {
                 const url = await uploadImageToGitHub(file.buffer, file.mimetype, file.originalname);
                 image_urls.push(url);
             } catch (err) {
-                return res.status(500).json({ error: 'Failed to upload image to GitHub: ' + err.message });
+                return res.status(500).json({ error: 'Image upload failed: ' + err.message });
             }
         }
     } else {
-        // Local dev: save to disk and serve as /uploads/...
         if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
         image_urls = req.files.map(file => {
             const ext = path.extname(file.originalname) || '.jpg';
@@ -216,19 +214,12 @@ app.post('/api/products', requireAuth, upload.array('images', 5), async (req, re
 
     try {
         const data = await readProducts();
-        const newProduct = {
-            id: data.nextId++,
-            name,
-            price,
-            category,
-            image_url: image_urls[0],
-            image_urls
-        };
+        const newProduct = { id: data.nextId++, name, price, category, image_url: image_urls[0], image_urls };
         data.products.push(newProduct);
         await writeProducts(data);
         res.json(newProduct);
     } catch (err) {
-        res.status(500).json({ error: 'Product saved to GitHub images, but failed to update product list: ' + err.message });
+        res.status(500).json({ error: 'Failed to save product: ' + err.message });
     }
 });
 
@@ -247,7 +238,6 @@ app.delete('/api/products/:id', requireAuth, async (req, res) => {
     }
 });
 
-// ── Local dev server ─────────────────────────────────────
 if (!IS_VERCEL) {
     app.listen(PORT, () => console.log(`✨ Nimooh's Closet → http://localhost:${PORT}`));
 }
