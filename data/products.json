@@ -11,6 +11,16 @@
       ]
     },
     {
+      "id": 4,
+      "name": "dress",
+      "price": "1500",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1782975932284-929393.jpeg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1782975932284-929393.jpeg"
+      ]
+    },
+    {
       "id": 5,
       "name": "Dr",
       "price": "$299",
@@ -28,16 +38,6 @@
       "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956314262-496939.jpeg",
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956314262-496939.jpeg"
-      ]
-    },
-    {
-      "id": 7,
-      "name": "I w",
-      "price": "567",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956390242-156405.jpg",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1783956390242-156405.jpg"
       ]
     },
     {
