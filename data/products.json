@@ -217,7 +217,18 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784308857863-523039.png"
       ]
+    },
+    {
+      "id": 33,
+      "name": "Elegant dress",
+      "price": "2000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784308912337-341726.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784308912337-341726.png",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784308913425-129841.png"
+      ]
     }
   ],
-  "nextId": 33
+  "nextId": 34
 }
