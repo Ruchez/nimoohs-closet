@@ -280,7 +280,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310368046-143983.png"
       ]
+    },
+    {
+      "id": 42,
+      "name": "Sundress ",
+      "price": "1800tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310409615-237291.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310409615-237291.png"
+      ]
     }
   ],
-  "nextId": 42
+  "nextId": 43
 }
