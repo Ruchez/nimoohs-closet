@@ -249,7 +249,18 @@
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310241182-940845.png",
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310242409-646558.png"
       ]
+    },
+    {
+      "id": 39,
+      "name": "Elegant dinner dress ",
+      "price": "2200tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310276833-933018.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310276833-933018.png",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310278134-739270.png"
+      ]
     }
   ],
-  "nextId": 39
+  "nextId": 40
 }
