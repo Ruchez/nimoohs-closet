@@ -249,7 +249,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881524225-262615.jpg"
       ]
+    },
+    {
+      "id": 74,
+      "name": "Black long sleeved jumpsuit (zipped)",
+      "price": "1200tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881662151-487155.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881662151-487155.png"
+      ]
     }
   ],
-  "nextId": 74
+  "nextId": 75
 }
