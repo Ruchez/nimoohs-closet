@@ -313,7 +313,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878120562-177914.jpg"
       ]
+    },
+    {
+      "id": 51,
+      "name": "Emerald Green Tie-Front Handkerchief Crop Top",
+      "price": "400tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878329316-318214.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878329316-318214.jpg"
+      ]
     }
   ],
-  "nextId": 51
+  "nextId": 52
 }
