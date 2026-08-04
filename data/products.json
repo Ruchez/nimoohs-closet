@@ -333,7 +333,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878439546-502136.jpg"
       ]
+    },
+    {
+      "id": 53,
+      "name": "Red  halter top ",
+      "price": "300",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878574125-334416.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878574125-334416.jpg"
+      ]
     }
   ],
-  "nextId": 53
+  "nextId": 54
 }
