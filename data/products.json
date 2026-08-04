@@ -493,7 +493,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879785753-680471.jpg"
       ]
+    },
+    {
+      "id": 69,
+      "name": "Brown ribbed tank top ",
+      "price": "350tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879842246-583907.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879842246-583907.jpg"
+      ]
     }
   ],
-  "nextId": 69
+  "nextId": 70
 }
