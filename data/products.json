@@ -363,7 +363,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878815453-144322.jpg"
       ]
+    },
+    {
+      "id": 56,
+      "name": "Red crop top",
+      "price": "400tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878859815-317295.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878859815-317295.jpg"
+      ]
     }
   ],
-  "nextId": 56
+  "nextId": 57
 }
