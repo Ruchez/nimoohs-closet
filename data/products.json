@@ -300,7 +300,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882235121-727884.jpg"
       ]
+    },
+    {
+      "id": 79,
+      "name": "Black backless dress (midi)",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882400643-798360.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882400643-798360.jpg"
+      ]
     }
   ],
-  "nextId": 79
+  "nextId": 80
 }
