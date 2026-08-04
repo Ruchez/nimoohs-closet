@@ -239,7 +239,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881364222-914434.png"
       ]
+    },
+    {
+      "id": 73,
+      "name": "Sweetheart dress(midi)",
+      "price": "1500",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881524225-262615.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881524225-262615.jpg"
+      ]
     }
   ],
-  "nextId": 73
+  "nextId": 74
 }
