@@ -323,7 +323,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878329316-318214.jpg"
       ]
+    },
+    {
+      "id": 52,
+      "name": "One-Shoulder Tank Crop Top",
+      "price": "350",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878439546-502136.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878439546-502136.jpg"
+      ]
     }
   ],
-  "nextId": 52
+  "nextId": 53
 }
