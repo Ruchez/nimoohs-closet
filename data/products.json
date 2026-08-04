@@ -199,16 +199,6 @@
       ]
     },
     {
-      "id": 40,
-      "name": "Fancy dress",
-      "price": "1200",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310313036-809461.png",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784310313036-809461.png"
-      ]
-    },
-    {
       "id": 49,
       "name": "Pink Bandana crop top🩷",
       "price": "400tl",
