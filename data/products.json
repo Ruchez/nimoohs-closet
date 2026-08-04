@@ -279,7 +279,18 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881922510-643447.png"
       ]
+    },
+    {
+      "id": 77,
+      "name": "Jungle green backless dress (maxi)",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882071024-277398.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882071024-277398.png",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882072404-775691.jpg"
+      ]
     }
   ],
-  "nextId": 77
+  "nextId": 78
 }
