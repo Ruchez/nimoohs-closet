@@ -310,7 +310,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882400643-798360.jpg"
       ]
+    },
+    {
+      "id": 80,
+      "name": "Red mini dress",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882466795-37288.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882466795-37288.png"
+      ]
     }
   ],
-  "nextId": 80
+  "nextId": 81
 }
