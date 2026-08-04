@@ -340,7 +340,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882825336-12992.jpg"
       ]
+    },
+    {
+      "id": 83,
+      "name": "Floral off shoulder dress(maxi)",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785883210710-138260.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785883210710-138260.jpg"
+      ]
     }
   ],
-  "nextId": 83
+  "nextId": 84
 }
