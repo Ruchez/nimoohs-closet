@@ -453,7 +453,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879376124-107350.jpg"
       ]
+    },
+    {
+      "id": 65,
+      "name": "Graphic crop top",
+      "price": "350tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879418010-282729.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879418010-282729.jpg"
+      ]
     }
   ],
-  "nextId": 65
+  "nextId": 66
 }
