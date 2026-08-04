@@ -229,7 +229,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881142595-699655.png"
       ]
+    },
+    {
+      "id": 72,
+      "name": " white one shoulder(mini)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881364222-914434.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881364222-914434.png"
+      ]
     }
   ],
-  "nextId": 72
+  "nextId": 73
 }
