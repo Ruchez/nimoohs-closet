@@ -290,7 +290,17 @@
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882071024-277398.png",
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882072404-775691.jpg"
       ]
+    },
+    {
+      "id": 78,
+      "name": "Black elegant backless dress(maxi)",
+      "price": "2000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882235121-727884.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882235121-727884.jpg"
+      ]
     }
   ],
-  "nextId": 78
+  "nextId": 79
 }
