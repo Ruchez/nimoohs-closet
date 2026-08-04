@@ -443,7 +443,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879305499-940849.jpg"
       ]
+    },
+    {
+      "id": 64,
+      "name": "Graphic tank top ",
+      "price": "300tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879376124-107350.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879376124-107350.jpg"
+      ]
     }
   ],
-  "nextId": 64
+  "nextId": 65
 }
