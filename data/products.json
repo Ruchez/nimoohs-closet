@@ -270,17 +270,6 @@
       ]
     },
     {
-      "id": 47,
-      "name": "Elegant gown ",
-      "price": "2500tl",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784359672285-149330.png",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784359672285-149330.png",
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784359673973-247588.png"
-      ]
-    },
-    {
       "id": 49,
       "name": "Pink Bandana crop top🩷",
       "price": "400tl",
