@@ -219,7 +219,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881025683-278114.jpg"
       ]
+    },
+    {
+      "id": 71,
+      "name": "Floral dress(midi)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881142595-699655.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881142595-699655.png"
+      ]
     }
   ],
-  "nextId": 71
+  "nextId": 72
 }
