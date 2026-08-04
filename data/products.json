@@ -353,7 +353,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878665535-84998.jpg"
       ]
+    },
+    {
+      "id": 55,
+      "name": "Black tank top ",
+      "price": "300tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878815453-144322.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878815453-144322.jpg"
+      ]
     }
   ],
-  "nextId": 55
+  "nextId": 56
 }
