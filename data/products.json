@@ -65,16 +65,6 @@
       ]
     },
     {
-      "id": 21,
-      "name": "Jumpsuit ",
-      "price": "1500tl",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043973356-544148.png",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043973356-544148.png"
-      ]
-    },
-    {
       "id": 26,
       "name": "Body con dress ",
       "price": "1500tl",
