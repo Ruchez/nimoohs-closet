@@ -269,7 +269,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881748911-541635.png"
       ]
+    },
+    {
+      "id": 76,
+      "name": "Stripped body con dress",
+      "price": "1200tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881922510-643447.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881922510-643447.png"
+      ]
     }
   ],
-  "nextId": 76
+  "nextId": 77
 }
