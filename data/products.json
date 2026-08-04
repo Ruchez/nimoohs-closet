@@ -23,17 +23,6 @@
       ]
     },
     {
-      "id": 17,
-      "name": "Elegant dinner dress ",
-      "price": "2000tl",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043809816-851880.png",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043809816-851880.png",
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1784043810989-143516.png"
-      ]
-    },
-    {
       "id": 26,
       "name": "Body con dress ",
       "price": "1500tl",
