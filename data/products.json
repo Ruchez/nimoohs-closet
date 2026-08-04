@@ -433,7 +433,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879228598-643496.jpg"
       ]
+    },
+    {
+      "id": 63,
+      "name": "Satin halter top ",
+      "price": "350tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879305499-940849.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879305499-940849.jpg"
+      ]
     }
   ],
-  "nextId": 63
+  "nextId": 64
 }
