@@ -393,7 +393,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785878987688-192098.jpg"
       ]
+    },
+    {
+      "id": 59,
+      "name": "Ribbed tank top ",
+      "price": "300tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879026136-369596.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879026136-369596.jpg"
+      ]
     }
   ],
-  "nextId": 59
+  "nextId": 60
 }
