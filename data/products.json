@@ -473,7 +473,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879483230-755805.jpg"
       ]
+    },
+    {
+      "id": 67,
+      "name": "Grey crop top",
+      "price": "350tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879573709-43109.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785879573709-43109.jpg"
+      ]
     }
   ],
-  "nextId": 67
+  "nextId": 68
 }
