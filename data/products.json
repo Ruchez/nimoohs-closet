@@ -320,7 +320,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882466795-37288.png"
       ]
+    },
+    {
+      "id": 81,
+      "name": "Green one handed dress(midi)",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882565118-521060.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882565118-521060.png"
+      ]
     }
   ],
-  "nextId": 81
+  "nextId": 82
 }
