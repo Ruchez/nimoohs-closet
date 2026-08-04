@@ -330,7 +330,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882565118-521060.png"
       ]
+    },
+    {
+      "id": 82,
+      "name": "Black elegant one shouldered dress(maxi)",
+      "price": "2000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882825336-12992.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785882825336-12992.jpg"
+      ]
     }
   ],
-  "nextId": 82
+  "nextId": 83
 }
