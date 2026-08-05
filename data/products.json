@@ -380,7 +380,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785923021596-707757.jpg"
       ]
+    },
+    {
+      "id": 88,
+      "name": "Black elegant tank top(maxi)",
+      "price": "2000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785923195122-370881.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785923195122-370881.png"
+      ]
     }
   ],
-  "nextId": 88
+  "nextId": 89
 }
