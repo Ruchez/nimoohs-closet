@@ -360,7 +360,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785922374170-159444.jpg"
       ]
+    },
+    {
+      "id": 86,
+      "name": "Black backless body con dress",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785922839676-86732.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785922839676-86732.jpg"
+      ]
     }
   ],
-  "nextId": 86
+  "nextId": 87
 }
