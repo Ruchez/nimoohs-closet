@@ -430,7 +430,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218082986-90261.jpg"
       ]
+    },
+    {
+      "id": 93,
+      "name": "Royal blue crocheted bandana top ",
+      "price": "500",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218122215-758932.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218122215-758932.jpg"
+      ]
     }
   ],
-  "nextId": 93
+  "nextId": 94
 }
