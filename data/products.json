@@ -410,7 +410,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786217997085-210868.jpg"
       ]
+    },
+    {
+      "id": 91,
+      "name": "Sky blue crocheted bandana top",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218041909-39701.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218041909-39701.jpg"
+      ]
     }
   ],
-  "nextId": 91
+  "nextId": 92
 }
