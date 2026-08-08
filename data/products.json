@@ -420,7 +420,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218041909-39701.jpg"
       ]
+    },
+    {
+      "id": 92,
+      "name": "Black crocheted bandana top ",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218082986-90261.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218082986-90261.jpg"
+      ]
     }
   ],
-  "nextId": 92
+  "nextId": 93
 }
