@@ -400,7 +400,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785923275684-156506.jpg"
       ]
+    },
+    {
+      "id": 90,
+      "name": "Hot pink Crocheted bandana top",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786217997085-210868.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786217997085-210868.jpg"
+      ]
     }
   ],
-  "nextId": 90
+  "nextId": 91
 }
