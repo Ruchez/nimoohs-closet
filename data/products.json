@@ -470,7 +470,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218419750-395075.jpg"
       ]
+    },
+    {
+      "id": 97,
+      "name": "Beige crocheted bandana top ",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786219005146-288018.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786219005146-288018.jpg"
+      ]
     }
   ],
-  "nextId": 97
+  "nextId": 98
 }
