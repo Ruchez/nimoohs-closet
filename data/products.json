@@ -450,7 +450,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218167543-83956.jpg"
       ]
+    },
+    {
+      "id": 95,
+      "name": "Emerald green bandana top ",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218209021-58508.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218209021-58508.jpg"
+      ]
     }
   ],
-  "nextId": 95
+  "nextId": 96
 }
