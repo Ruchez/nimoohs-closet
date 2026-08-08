@@ -440,7 +440,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218122215-758932.jpg"
       ]
+    },
+    {
+      "id": 94,
+      "name": "Burgundy crocheted bandana top ",
+      "price": "500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218167543-83956.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786218167543-83956.jpg"
+      ]
     }
   ],
-  "nextId": 94
+  "nextId": 95
 }
