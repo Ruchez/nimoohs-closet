@@ -440,7 +440,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786219005146-288018.jpg"
       ]
+    },
+    {
+      "id": 98,
+      "name": "Brown silk slip fit and flared dress(maxi)",
+      "price": "2500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737817429-581498.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737817429-581498.jpg"
+      ]
     }
   ],
-  "nextId": 98
+  "nextId": 99
 }
