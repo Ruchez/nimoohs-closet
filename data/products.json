@@ -211,16 +211,6 @@
       ]
     },
     {
-      "id": 70,
-      "name": "Red backless dress(maxi)",
-      "price": "2000tl",
-      "category": "clothing",
-      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881025683-278114.jpg",
-      "image_urls": [
-        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1785881025683-278114.jpg"
-      ]
-    },
-    {
       "id": 71,
       "name": "Floral dress(midi)",
       "price": "1000tl",
