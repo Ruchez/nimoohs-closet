@@ -450,7 +450,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737817429-581498.jpg"
       ]
+    },
+    {
+      "id": 99,
+      "name": "Red backless dress(maxi)",
+      "price": "2500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737851517-761992.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737851517-761992.jpg"
+      ]
     }
   ],
-  "nextId": 99
+  "nextId": 100
 }
