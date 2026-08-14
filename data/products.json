@@ -460,7 +460,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737851517-761992.jpg"
       ]
+    },
+    {
+      "id": 100,
+      "name": "White high law backless dress ",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737884030-722043.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737884030-722043.jpg"
+      ]
     }
   ],
-  "nextId": 100
+  "nextId": 101
 }
