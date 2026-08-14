@@ -480,7 +480,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786737964454-664733.jpg"
       ]
+    },
+    {
+      "id": 102,
+      "name": "Black tank body con dress with a side slit",
+      "price": "2200tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786738027027-748405.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786738027027-748405.jpg"
+      ]
     }
   ],
-  "nextId": 102
+  "nextId": 103
 }
