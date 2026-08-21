@@ -590,7 +590,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337228408-829708.jpg"
       ]
+    },
+    {
+      "id": 113,
+      "name": "Queen's baseball jersey ( XL)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337280865-251620.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337280865-251620.jpg"
+      ]
     }
   ],
-  "nextId": 113
+  "nextId": 114
 }
