@@ -580,7 +580,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337149707-947323.jpg"
       ]
+    },
+    {
+      "id": 112,
+      "name": "Dodger's baseball jersey (XXL)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337228408-829708.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337228408-829708.jpg"
+      ]
     }
   ],
-  "nextId": 112
+  "nextId": 113
 }
