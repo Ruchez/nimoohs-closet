@@ -600,7 +600,18 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337280865-251620.jpg"
       ]
+    },
+    {
+      "id": 114,
+      "name": "2 piece dodgers jersey ",
+      "price": "1500tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337711543-84657.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337711543-84657.jpg",
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337712367-142764.jpg"
+      ]
     }
   ],
-  "nextId": 114
+  "nextId": 115
 }
