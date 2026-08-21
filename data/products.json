@@ -510,7 +510,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336557107-215382.jpg"
       ]
+    },
+    {
+      "id": 105,
+      "name": "Arsenal Baseball jersey ",
+      "price": "1100tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336792771-975687.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336792771-975687.jpg"
+      ]
     }
   ],
-  "nextId": 105
+  "nextId": 106
 }
