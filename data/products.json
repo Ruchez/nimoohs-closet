@@ -490,7 +490,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1786738027027-748405.jpg"
       ]
+    },
+    {
+      "id": 103,
+      "name": "Royals baseball jersey(xl)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336425689-996641.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336425689-996641.jpg"
+      ]
     }
   ],
-  "nextId": 103
+  "nextId": 104
 }
