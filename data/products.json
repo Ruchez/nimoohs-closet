@@ -540,7 +540,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336916116-231695.jpg"
       ]
+    },
+    {
+      "id": 108,
+      "name": "Chelsea baseball jersey( XL) ",
+      "price": "1100tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336979035-524504.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336979035-524504.jpg"
+      ]
     }
   ],
-  "nextId": 108
+  "nextId": 109
 }
