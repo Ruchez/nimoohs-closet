@@ -570,7 +570,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337076675-619458.jpg"
       ]
+    },
+    {
+      "id": 111,
+      "name": "Pirates baseball jersey ( L)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337149707-947323.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337149707-947323.jpg"
+      ]
     }
   ],
-  "nextId": 111
+  "nextId": 112
 }
