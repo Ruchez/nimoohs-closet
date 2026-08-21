@@ -500,7 +500,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336425689-996641.jpg"
       ]
+    },
+    {
+      "id": 104,
+      "name": "Manchester united  baseball jersey(L)",
+      "price": "1100tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336557107-215382.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336557107-215382.jpg"
+      ]
     }
   ],
-  "nextId": 104
+  "nextId": 105
 }
