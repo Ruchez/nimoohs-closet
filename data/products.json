@@ -520,7 +520,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336792771-975687.jpg"
       ]
+    },
+    {
+      "id": 106,
+      "name": "Boston baseball jersey( xl)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336863427-927454.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336863427-927454.jpg"
+      ]
     }
   ],
-  "nextId": 106
+  "nextId": 107
 }
