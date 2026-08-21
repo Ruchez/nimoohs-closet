@@ -550,7 +550,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787336979035-524504.jpg"
       ]
+    },
+    {
+      "id": 109,
+      "name": "Ram's baseball jersey(XL)",
+      "price": "1000tl",
+      "category": "clothing",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337036827-273356.jpg",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1787337036827-273356.jpg"
+      ]
     }
   ],
-  "nextId": 109
+  "nextId": 110
 }
