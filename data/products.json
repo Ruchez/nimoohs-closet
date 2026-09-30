@@ -621,7 +621,17 @@
       "image_urls": [
         "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1790761361412-787307.png"
       ]
+    },
+    {
+      "id": 116,
+      "name": "Lip gloss ",
+      "price": "100tl",
+      "category": "accessories",
+      "image_url": "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1790761383129-622524.png",
+      "image_urls": [
+        "https://raw.githubusercontent.com/Ruchez/nimoohs-closet/main/public/uploads/1790761383129-622524.png"
+      ]
     }
   ],
-  "nextId": 116
+  "nextId": 117
 }
